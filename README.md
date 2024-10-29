@@ -65,20 +65,20 @@ In this one you will find 3 pages:
 This page is composed of character cards that can be flipped by clicking to access more information about the character.
 You will also find a search field by name as well as various filters.
 
-![alt text](IMG_D6F1741BFC89-1.jpeg) ![alt text](<Capture d’écran 2024-10-29 à 23.26.54.png>)
+![ ](IMG_D6F1741BFC89-1-1.jpeg) ![alt text](img-1.jpeg)
 
 ## List of planets
 
 
 This page allows you to view all the planets present in the series as well as to access the list of characters appearing there.
 
-![alt text](IMG_FD86B11C2CD1-1.jpeg) ![alt text](<Capture d’écran 2024-10-29 à 23.29.00.png>)
+![alt text](IMG_FD86B11C2CD1-1-1.jpeg) ![alt text](img-2.jpeg)
 
 ## List of episodes
 
 This page allows you to view the main information of the different episodes of the series and to access in 1 click the list of characters appearing there.
 
-![alt text](IMG_9A9CEDB617A8-1.jpeg)  ![alt text](<Capture d’écran 2024-10-29 à 23.30.58.png>)
+![alt text](IMG_9A9CEDB617A8-1-1.jpeg) ![alt text](img-3.jpeg)
 
 
 
