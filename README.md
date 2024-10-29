@@ -51,3 +51,34 @@ Join our community of developers creating universal apps.
 
 
 ![alt text](rick_logo.jpg)
+
+## The project
+
+This application allows you to display the different information coming from the Rick and Morty series from the API [file-based routing](https://rickandmortyapi.com/api/)
+You will find the different endpoints here =>  [file-based routing](https://rickandmortyapi.com/documentation/)
+
+
+In this one you will find 3 pages:
+
+## List of characters
+
+This page is composed of character cards that can be flipped by clicking to access more information about the character.
+You will also find a search field by name as well as various filters.
+
+![alt text](IMG_D6F1741BFC89-1.jpeg) ![alt text](<Capture d’écran 2024-10-29 à 23.26.54.png>)
+
+## List of planets
+
+
+This page allows you to view all the planets present in the series as well as to access the list of characters appearing there.
+
+![alt text](IMG_FD86B11C2CD1-1.jpeg) ![alt text](<Capture d’écran 2024-10-29 à 23.29.00.png>)
+
+## List of episodes
+
+This page allows you to view the main information of the different episodes of the series and to access in 1 click the list of characters appearing there.
+
+![alt text](IMG_9A9CEDB617A8-1.jpeg)  ![alt text](<Capture d’écran 2024-10-29 à 23.30.58.png>)
+
+
+
