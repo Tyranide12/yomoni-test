@@ -6,10 +6,5 @@ import { type ComponentProps } from 'react';
 import { Text } from 'react-native';
 
 export function TabBarIcon({ style, ...rest }: IconProps<ComponentProps<typeof Ionicons>['name']>) {
-
-  // if (!...rest)
     return <Ionicons size={28} style={[{ marginBottom: -3 }, style]} {...rest} />;
-  // else {
-    // return <Text>perdu</Text>
-  // }
 }

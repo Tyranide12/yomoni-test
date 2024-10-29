@@ -1,5 +1,5 @@
-import type { PropsWithChildren, ReactElement } from 'react';
-import { StyleSheet, View, useColorScheme } from 'react-native';
+import { useEffect, PropsWithChildren, ReactElement, useState } from 'react';
+import { Dimensions, Platform, StyleSheet, View, useColorScheme } from 'react-native';
 import Animated, {
   interpolate,
   useAnimatedRef,
@@ -11,25 +11,41 @@ import { ThemedView } from '@/components/ThemedView';
 
 const HEADER_HEIGHT = 250;
 
-type Props = PropsWithChildren<{
+interface Props {
   headerImage: ReactElement;
   headerBackgroundColor: { dark: string; light: string };
   isScroll: boolean;
-  setIsScroll: React.Dispatch<React.SetStateAction<any>>
-}>;
+  setIsScroll: React.Dispatch<React.SetStateAction<boolean>>;
+  loadMore: () => void;
+  nbPagesGet: { current: number; rest: number };
+}
+
+export const isMobileFormat = Platform.OS === 'android' || Platform.OS === 'ios' || Dimensions.get('window').width < 650;
+export const isMobileDevice = Platform.OS === 'android' || Platform.OS === 'ios';
 
 export default function ParallaxScrollView({
   children,
   headerImage,
   headerBackgroundColor,
+  loadMore,
+  nbPagesGet,
   isScroll,
   setIsScroll
-}: Props) {
+}: PropsWithChildren<Props>) {
   const colorScheme = useColorScheme() ?? 'light';
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const scrollOffset = useScrollViewOffset(scrollRef);
+  const [contentHeight, setContentHeight] = useState<number>(0);
 
-  console.log("IT IS SCROLL ? = ", isScroll)
+  useEffect(() => {
+    if (nbPagesGet.rest > 0 && contentHeight < Dimensions.get('window').height) loadMore();
+  }, [contentHeight]);
+
+  const isFitToBottom = ({ layoutMeasurement, contentOffset, contentSize }: any) => {
+    const paddingToBottom = 120;
+    return layoutMeasurement.height + contentOffset.y >=
+      contentSize.height - paddingToBottom;
+  };
 
   const headerAnimatedStyle = useAnimatedStyle(() => {
     return {
@@ -50,19 +66,36 @@ export default function ParallaxScrollView({
 
   return (
     <ThemedView style={styles.container}>
-      
-      <Animated.ScrollView ref={scrollRef} scrollEventThrottle={16} onScroll={(e) => {
-        setIsScroll(e.nativeEvent.contentOffset.y > 250)
-        }}>
+      <Animated.ScrollView 
+        ref={scrollRef} 
+        scrollEventThrottle={isMobileDevice ? 16 : 400}
+        onContentSizeChange={(contentWidth, contentHeight) => setContentHeight(contentHeight)}
+        onScroll={({ nativeEvent }) => {
+          if (isScroll !== (nativeEvent.contentOffset.y > 250)) {
+            setIsScroll(nativeEvent.contentOffset.y > 250);
+          }
+          if (isFitToBottom(nativeEvent)) {
+            !isMobileDevice && loadMore();
+          }
+        }}
+        onMomentumScrollEnd={({ nativeEvent }) => {
+          setIsScroll(nativeEvent.contentOffset.y > 250);
+          if (isFitToBottom(nativeEvent)) {
+            isMobileDevice && loadMore();
+          }
+        }}
+        showsHorizontalScrollIndicator={false}
+      >
         <Animated.View
           style={[
             styles.header,
-            { backgroundColor: headerBackgroundColor[colorScheme], height: 250 },
+            { backgroundColor: headerBackgroundColor[colorScheme], height: HEADER_HEIGHT },
             headerAnimatedStyle,
-          ]}>
+          ]}
+        >
           {headerImage}
         </Animated.View>
-        <ThemedView style={styles.content}>{children}</ThemedView>
+        <View style={styles.content}>{children}</View>
       </Animated.ScrollView>
     </ThemedView>
   );
@@ -71,15 +104,15 @@ export default function ParallaxScrollView({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "white",
   },
   header: {
-    // height: 250,
     overflow: 'hidden',
   },
   content: {
     flex: 1,
-    padding: 32,
-    gap: 16,
+    padding: 15,
+    backgroundColor: "white",
     overflow: 'hidden',
   },
 });

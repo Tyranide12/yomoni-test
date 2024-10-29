@@ -5,11 +5,8 @@ export default function first() {
   return (
     <View style={{ marginTop: 50 }}>
       <Text>Bienvenue sur Happy's APP !</Text>
-      <Link href="/(tabs)/rick&morty" asChild>
-      {/* <Pressable> */}
+      <Link href="/(tabs)/characters" asChild>
       <Button title="Découvrir"/>
-        {/* <Text>Home</Text> */}
-      {/* </Pressable> */}
     </Link>
     </View>
   )
