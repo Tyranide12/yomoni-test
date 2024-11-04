@@ -14,7 +14,7 @@ interface RickHeaderProps {
 const RickHeader: React.FC<RickHeaderProps> = (props) => {
   return (
     <View style={[styles.headerContainer, isMobileDevice ? styles.mobilePadding : styles.defaultPadding]}>
-      <View style={styles.innerContainer}>
+      <View style={[styles.innerContainer, !isMobileFormat ? styles.mobileMargin : null]}>
         <View style={styles.logoContainer}>
           <Image
             source={require('@/assets/images/rickPictures/rick_logo.jpg')}
@@ -46,9 +46,13 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     paddingVertical: 12,
   },
+  mobileMargin: {
+    marginBottom: 20
+  },
   defaultPadding: {
     paddingTop: 12,
     paddingVertical: 12,
+
   },
   innerContainer: {
     flex: 1,

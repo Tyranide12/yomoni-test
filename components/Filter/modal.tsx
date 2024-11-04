@@ -1,4 +1,4 @@
-import { Animated, Button, Dimensions, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Animated, Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Filter from ".";
 import { isMobileDevice, isMobileFormat } from "../ParallaxScrollView";
 import { useRef, useState } from "react";
@@ -44,44 +44,48 @@ const FilterModal: React.FC<FilterModalProps> = ({
     setAbsoluteFilterOpen(false);
   };
 
+  const isVisible = isMobileFormat && isScroll && !newParams.id;
+
   return (
     <>
-      {isMobileFormat && isScroll && !newParams.id && (
-        <View style={{
-          justifyContent: "center",
-          alignItems: "center",
-          position: "absolute",
-          top: "50%",
-          right: 0,
-          backgroundColor: "white",
-          width: 60,
-          height: 60,
-          zIndex: 999,
-          borderTopLeftRadius: 5,
-          borderBottomLeftRadius: 5
-        }}>
+      {isVisible && (
+        <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={showInfo}>
             <Ionicons size={40} name="filter-circle-outline" />
           </TouchableOpacity>
         </View>
       )}
-      <Animated.View style={[
-        styles.infoBox,
-        {
-          paddingTop: isMobileDevice ? 60 : 0,
-          transform: [{ translateX: slideAnimation }],
-        },
-      ]}>
-        <Filter {...{ selectOption, getChangeName, filterParams, removeOption, setRefresh }} isScroll={isScroll || absoluteFilterOpen} />
-        <View style={{ position: "absolute", bottom: 0, left: 0, right: 0, marginBottom: 40, backgroundColor: '#fc7e7e', marginHorizontal: 20, borderRadius: 10 }}>
-          <Button color={"white"} title="Fermer" onPress={hideInfo} />
-        </View>
+      <Animated.View style={[styles.infoBox, { paddingTop: isMobileDevice ? 60 : 20, transform: [{ translateX: slideAnimation }] }]}>
+        <Filter 
+          selectOption={selectOption} 
+          getChangeName={getChangeName} 
+          filterParams={filterParams} 
+          removeOption={removeOption} 
+          setRefresh={setRefresh} 
+          isScroll={isScroll || absoluteFilterOpen} 
+        />
+        <TouchableOpacity onPress={hideInfo} style={styles.closeButton}>
+          <Text style={styles.closeButtonText}>Close</Text>
+        </TouchableOpacity>
       </Animated.View>
     </>
   );
 };
 
 const styles = StyleSheet.create({
+  buttonContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    top: "50%",
+    right: 0,
+    backgroundColor: "white",
+    width: 60,
+    height: 60,
+    zIndex: 999,
+    borderTopLeftRadius: 5,
+    borderBottomLeftRadius: 5,
+  },
   infoBox: {
     position: 'absolute',
     right: 0,
@@ -99,6 +103,22 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
+  },
+  closeButton: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    marginBottom: 40,
+    marginHorizontal: 20,
+    backgroundColor: "#fc7e7e",
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: "center",
+    paddingVertical: 10,
+  },
+  closeButtonText: {
+    color: "white",
   },
 });
 

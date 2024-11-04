@@ -4,7 +4,7 @@ import { ActivityIndicator, ScrollView, StyleSheet, Text, View, TouchableOpacity
 import { isMobileDevice } from "@/components/ParallaxScrollView";
 import { Ionicons } from "@expo/vector-icons";
 
-interface Location {
+interface Episode {
   id: number;
   name: string;
   episode: string;
@@ -13,7 +13,7 @@ interface Location {
 }
 
 interface GroupedBySeason {
-  [season: string]: Location[];
+  [season: string]: Episode[];
 }
 
 export default function Episodes() {
@@ -21,15 +21,15 @@ export default function Episodes() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchAllPages = async (url: string): Promise<Location[]> => {
-    const results: Location[] = [];
+  const fetchAllPages = async (url: string): Promise<Episode[]> => {
+    const results: Episode[] = [];
 
     while (url) {
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      const json: { results: Location[]; info: { next: string | null } } = await response.json();
+      const json: { results: Episode[]; info: { next: string | null } } = await response.json();
       results.push(...json.results);
       url = json.info.next !== null ? json.info.next : '';
     }
@@ -49,7 +49,6 @@ export default function Episodes() {
           acc[seasonNumber].push(episode);
           return acc;
         }, {});
-        console.log(groupedBySeason);
         setData(groupedBySeason);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An unknown error occurred');
